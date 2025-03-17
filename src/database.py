@@ -91,12 +91,42 @@ def excluir_viagem(id_viagem):
     finally:
         conexao.close()
         
-def excluir_usuario(usuarios):
+def excluir_usuario(email):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     
     try:
-        cursor.execute('DELETE FROM usuarios WHERE email = ?', (usuarios,))
+        cursor.execute('DELETE FROM usuarios WHERE email = ?', (email,))
+
+        cursor.execute('DELETE FROM projetos_de_viagem WHERE id_usuario = ?', (email,))
+
+        conexao.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+    finally:
+        conexao.close()
+
+def mudar_nome_usuario(email, novo_nome):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    try:
+        cursor.execute('update usuarios set nome = ? where email = ?', (novo_nome, email,))
+
+        conexao.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+    finally:
+        conexao.close()
+
+def mudar_senha_usuario(email, nova_senha):
+    conexao = conectar_banco()
+    cursor = conexao.cursor()
+    
+    try:
+        cursor.execute('update usuarios set senha = ? where email = ?', (nova_senha, email,))
 
         conexao.commit()
         return True
@@ -107,8 +137,8 @@ def excluir_usuario(usuarios):
 
 if __name__ == '__main__': 
     conexao = conectar_banco()
+    mudar_nome_usuario('felipecosta@gmail.com', novo_nome = 'costa')
+    mudar_senha_usuario('felipecosta@gmail.com', nova_senha = 'papa12')
     criar_tabelas()
-    excluir_viagem('1')
-    excluir_usuario('wefdgfs@gmail.com')
     id_viagens = mostrar_id_viagem("felipecosta@gmail.com")
     print(id_viagens)
