@@ -16,6 +16,11 @@
         <a href="/"><img src="static/imgs/logo.png" alt="Logo TRVL" class="logo"></a>
         <div class="user-info">
             <H1><h1>Bem-vindo, {{ usuario }}!</h1></H1>
+
+            <form action="{{ url_for('apagar_usuario') }}" method="POST">
+                <button type="submit" class="btn btn-danger">Excluir Usuário </button>
+                <input type="hidden" name="email" value="{{ usuario }}"> <!-- ID do Usuário -->
+            </form>
         </div>
     </header>
     <hr>
@@ -31,11 +36,17 @@
                 {% else %}
                     <img src="{{ url_for('static', filename='img/no-image.jpeg') }}" class="card-img-top" alt="Imagem Padrão">
                 {% endif %}
-
                     <div class="card-body">
                         <h5 class="card-title">{{ viagem[0] }}</h5>
                         <p class="card-text">Data Prevista: {{ viagem[1] }}</p>
                         <p class="card-text">Status: {{ viagem[2] }}</p>
+                        
+                        <!-- formulário para excluir a viagem -->
+                        <form action="{{ url_for('apagar_viagem') }}" method="POST">
+                            <input type="hidden" name="id_viagem" value="{{ viagem[4] }}"> <!-- ID da viagem -->
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -45,10 +56,12 @@
 
         </div>
     </div>
+    
     <div class="fileira">
         <a href="/nova" class="btn btn-primary">Nova Viagem</a>
         <a href="{{ url_for('logout') }}" class="logout">Sair</a>
     </div>
+    
 </body>
 
 </html>

@@ -51,7 +51,7 @@ def buscar_viagens(id_usuario):
     conexao = conectar_banco()
     cursor = conexao.cursor()
     # PREENCHA AQUI, BUSCAR TODAS AS VIAGENS ordem: destino, data prevista, status, imagem
-    cursor.execute('''SELECT destino, data_prevista, status, imagem FROM projetos_de_viagem
+    cursor.execute('''SELECT destino, data_prevista, status, imagem, id FROM projetos_de_viagem
                     WHERE id_usuario = ? ''', (id_usuario,))
     viagens = cursor.fetchall()
     conexao.close()

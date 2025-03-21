@@ -98,5 +98,23 @@ def nova_viagem():
         return redirect(url_for('home'))
     return render_template('nova_viagem.html')
 
+#rota para excluir viagem
+@app.route('/excluir-viagem', methods=['POST'])
+def apagar_viagem():
+    id_viagem = request.form.get('id_viagem') # Obtém o id da viagem do formulário
+
+    database.excluir_viagem(id_viagem) #passa o id para a função que exlcui a viagem
+
+    return redirect(url_for('home'))
+
+#rota para excluir Usuario
+@app.route('/excluir-usuario', methods=['POST'])
+def apagar_usuario():
+    id_usuario = request.form.get('email') # Obtém o email do usuario do formulário
+
+    database.excluir_usuario(id_usuario) #passa o id para a função que exlcui o usuario
+
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True) 
